@@ -1,34 +1,38 @@
 import React, { useState } from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import MovieList from './components/MovieLists.js';
 import Filter from './components/Filter.js';
+import Moviedescription from './components/Moviedescription.js';
+
 
 const App = () => {
     const [movies, setMovies] = useState([
         {
         title: 'Magic of Disney',
-            description: 'Tenth and final installment of the Fast and Furious franchise.',
-            posterURL: 'https://www.fboxtv.com/tv/watch-magic-of-disneys-animal-kingdom-fbox-65010',
-            rating: 4.5,
+        description: 'Tenth and final installment of the Fast and Furious franchise.',
+        trailerLink: 'https://www.youtube.com/watch?v=lgyfP_sOTvA',
+        rating: 4.5,
         },
 
         {
-        title: 'First Love',
-        description: 'A young man’s difficult entry into adulthood, who experiences the highs and lows of his first love, while dealing with the familial fallout spurred by the financial crisis of 2008..',
-        posterURL: 'https://www.fboxtv.com/movie/watch-first-love-fbox-82885',
+        title: 'First',
+        description: 'A young man difficult entry into adulthood, who experiences the highs and lows of his first love, while dealing with the familial fallout spurred by the financial crisis of 2008..',
+        trailerLink: 'https://www.youtube.com/watch?v=j0kro6SuwxM&t=20s',
         rating: 4.8,
         },
 
         {
         title: 'Frozen Fever',
         description: 'On Anna birthday, Elsa and Kristoff are determined to give her the best celebration ever, but Elsa icy powers may put more than just the party at risk.',
-        posterURL: 'https://www.fboxtv.com/movie/watch-frozen-fever-fbox-17595',
+        trailerLink: 'https://www.youtube.com/watch?v=3SVUr0yasCQ',
         rating: 4.0,
         },
 
         {
             title: 'King The Land',
             description: 'Amid a tense inheritance fight, a charming heir clashes with his hardworking employee who known for her irresistible smile which he cannot stand.',
-            posterURL: 'https://www.fboxtv.com/tv/watch-king-the-land-fbox-97606',
+            trailerLink: 'https://www.youtube.com/watch?v=AGF16szMOmo',
             rating: 5.0,
             },
 
@@ -54,11 +58,16 @@ const App = () => {
 
     return (
         <div className="app">
-        <Filter onFilter={handleFilter} />
-        <MovieList movies={filteredMovies} />
-        <AddMovieForm onAddMovie={handleAddMovie} />
+          <Filter onFilter={handleFilter} />
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<MovieList movies={filteredMovies} />} />
+              <Route path="/movies/:title" element={<Moviedescription movies={movies} />} />
+            </Routes>
+          </BrowserRouter>
+          <AddMovieForm onAddMovie={handleAddMovie} />
         </div>
-    );
+      );
     };
 
     const AddMovieForm = ({ onAddMovie }) => {
@@ -116,4 +125,7 @@ const App = () => {
     );
 };
 
-export default App;
+ReactDOM.render(<App />, document.getElementById('root'));
+    
+  
+  export default App;
